@@ -5814,7 +5814,7 @@
 }
 
 //Rush Bombzones
-
+//Bomb 1
 {
 "script_label" "_1"
 "script_bombmode_original" "1"
@@ -5832,7 +5832,6 @@
 "script_gameobjectname" "rushzone"
 "origin" "4203.28 3406.16 320.125"
 "model" "?18"
-"radius" "240"
 }
 {
 "gndLt" "2e343db701"
@@ -5859,6 +5858,13 @@
 "model" "com_bomb_objective_d"
 "classname" "script_model"
 }
+{
+"script_gameobjectname" "rushzone"
+"classname" "script_brushmodel"
+"origin" "993.762 60.0112 -7.875"
+"model" "*362"
+}
+//Bomb 2
 {
 "script_label" "_2"
 "script_bombmode_original" "1"
@@ -5903,6 +5909,7 @@
 "model" "com_bomb_objective_d"
 "classname" "script_model"
 }
+//Bomb 3
 {
 "script_label" "_3"
 "script_bombmode_original" "1"
@@ -5946,6 +5953,7 @@
 "model" "com_bomb_objective_d"
 "classname" "script_model"
 }
+//Bomb 4
 {
 "script_label" "_4"
 "script_bombmode_original" "1"
@@ -5989,6 +5997,7 @@
 "model" "com_bomb_objective_d"
 "classname" "script_model"
 }
+//Bomb 5
 {
 "script_label" "_5"
 "script_bombmode_original" "1"
@@ -6032,6 +6041,7 @@
 "model" "com_bomb_objective_d"
 "classname" "script_model"
 }
+//Bomb 6
 {
 "script_label" "_6"
 "script_bombmode_original" "1"
@@ -6075,6 +6085,7 @@
 "model" "com_bomb_objective_d"
 "classname" "script_model"
 }
+//Bomb 7
 {
 "script_label" "_7"
 "script_bombmode_original" "1"
@@ -6118,6 +6129,7 @@
 "model" "com_bomb_objective_d"
 "classname" "script_model"
 }
+//Bomb 8
 {
 "script_label" "_8"
 "script_bombmode_original" "1"

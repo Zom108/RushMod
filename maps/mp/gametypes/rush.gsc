@@ -1358,9 +1358,9 @@ spawnFakeCollision()
   scriptCollision setmodel("com_plassticcase_friendly");
   scriptCollision.angles = self.angles;
   scriptCollision solid();
-  //scriptCollision CloneBrushmodelToScriptmodel( level.airDropCrateCollision );
-  //bombZone.scriptCollision linkto(bombzone);
-  //bombZone.scriptCollision hide();
+  scriptCollision CloneBrushmodelToScriptmodel( level.airDropCrateCollision );
+  bombzone.scriptCollision linkto(bombzone);
+  bombzone.scriptCollision hide();
 }
 
 getSpawnPointMPmap()

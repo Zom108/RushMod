@@ -8,6 +8,7 @@
     allieschar  "us_army"
     axischar    "opforce_composite"
     environment   "urban"
+    useteamzones   "true"
 }
 
 {
@@ -20,6 +21,7 @@
    allieschar  "us_army"
     axischar    "opforce_airborne"
     environment   "urban"
+    useteamzones   "true"
 }
 
 {
@@ -32,6 +34,7 @@
     allieschar  "seals_udt"
     axischar    "opforce_composite"
     environment   "urban"
+    useteamzones   "true"
 }
 
 {
@@ -44,6 +47,7 @@
     allieschar  "us_army"
     axischar    "opforce_airborne"
     environment   "urban"
+    useteamzones   "true"
 }
 
 {
@@ -56,6 +60,7 @@
     allieschar  "socom_141_desert"
     axischar    "militia"
     environment   "urban"
+    useteamzones   "true"
 }
 
 {
@@ -68,6 +73,7 @@
     allieschar  "socom_141_desert"
     axischar    "militia"
     environment   "desert"
+    useteamzones   "true"
 }
 
 {
@@ -80,6 +86,7 @@
     allieschar  "socom_141_forest"
     axischar    "opforce_airborne"
     environment   "forest"
+    useteamzones   "true"
 }
 
 {
@@ -92,6 +99,7 @@
     allieschar  "socom_141_arctic"
     axischar    "opforce_arctic"
     environment   "arctic"
+    useteamzones   "true"
 }
 {
    map         "mp_subbase"
@@ -103,6 +111,7 @@
     allieschar  "seals_udt"
     axischar    "opforce_arctic"
     environment   "urban"
+    useteamzones   "true"
 }
 
 {
@@ -115,6 +124,7 @@
     allieschar  "socom_141_forest"
     axischar    "militia"
     environment   "forest"
+    useteamzones   "true"
 }
 
 {
@@ -127,6 +137,7 @@
     allieschar  "socom_141_forest"
     axischar    "opforce_airborne"
     environment   "forest"
+    useteamzones   "true"
 }
 {
    map         "estate"
@@ -138,6 +149,8 @@
     allieschar  "socom_141_forest"
     axischar    "opforce_airborne"
     environment   "forest"
+    useteamzones   "true"
+    useteamzones   "true"
 }
 {
    map         "mp_rundown"
@@ -149,6 +162,7 @@
     allieschar  "socom_141_desert"
     axischar    "militia"
     environment   "desert"
+    useteamzones   "true"
 }
 
 {
@@ -161,6 +175,7 @@
     allieschar  "socom_141_desert"
     axischar    "opforce_composite"
     environment   "desert"
+    useteamzones   "true"
 }
 
 {
@@ -173,6 +188,7 @@
     allieschar  "socom_141_desert"
     axischar    "opforce_composite"
     environment   "desert"
+    useteamzones   "true"
 }
 
 {
@@ -185,6 +201,7 @@
     allieschar  "us_army"
     axischar    "opforce_airborne"
     environment   "urban"
+    useteamzones   "true"
 }
 
 {
@@ -210,6 +227,7 @@
     allieschar  "socom_141_desert"
     axischar    "opforce_composite"
     environment   "desert"
+    useteamzones   "true"
 }
 
 {
@@ -222,6 +240,7 @@
     allieschar  "socom_141_desert"
     axischar    "opforce_airborne"
     environment   "urban"
+    useteamzones   "true"
 }
 
 {
@@ -234,6 +253,7 @@
     allieschar  "socom_141_arctic"
     axischar    "opforce_arctic"
     environment   "urban"
+    useteamzones   "true"
 }
 
 {
@@ -246,6 +266,7 @@
     allieschar  "us_army"
     axischar    "opforce_airborne"
     environment   "urban"
+    useteamzones   "true"
 }
 
 {
@@ -258,6 +279,7 @@
     allieschar  "socom_141_desert"
     axischar    "opforce_composite"
     environment   "urban"
+    useteamzones   "true"
 }
 
 {
@@ -270,6 +292,7 @@
     allieschar  "socom_141_forest"
     axischar    "opforce_airborne"
     environment   "forest"
+    useteamzones   "true"
 }
 
 
@@ -283,6 +306,7 @@
     allieschar  "socom_141_desert"
     axischar    "militia"
     environment   "urban"
+    useteamzones   "true"
 }
 
 {
@@ -295,6 +319,7 @@
     allieschar  "us_army"
     axischar    "opforce_composite"
     environment   "desert"
+    useteamzones   "true"
 }
 
 {
@@ -307,6 +332,7 @@
     allieschar  "us_army"
     axischar    "opforce_composite"
     environment   "urban"
+    useteamzones   "true"
 }
 
 {
@@ -319,6 +345,7 @@
     allieschar  "us_army"
     axischar    "opforce_airborne"
     environment   "urban"
+    useteamzones   "true"
 }
 
 {
@@ -331,6 +358,7 @@
     allieschar  "us_army"
     axischar    "opforce_composite"
     environment   "desert"
+    useteamzones   "true"
 }
 
 {
@@ -343,6 +371,7 @@
     allieschar  "seals_udt"
     axischar    "opforce_arctic"
     environment   "urban"
+    useteamzones   "true"
 }
 
 {
@@ -355,6 +384,7 @@
     allieschar  "seals_udt"
     axischar    "opforce_arctic"
     environment   "urban"
+    useteamzones   "true"
 }
 
 {
@@ -366,6 +396,7 @@
     allieschar  "socom_141_forest"
     axischar    "opforce_airborne"
     environment   "forest"
+    useteamzones   "true"
 }
 
 {
@@ -378,6 +409,7 @@
     allieschar  "us_army"
     axischar    "opforce_composite"
     environment   "urban"
+    useteamzones   "true"
 }
 
 {
@@ -390,6 +422,7 @@
     allieschar  "socom_141_desert"
     axischar    "opforce_composite"
     environment   "desert"
+    useteamzones   "true"
 }
 
 {
@@ -402,6 +435,7 @@
     allieschar  "socom_141_desert"
     axischar    "militia"
     environment "urban"
+    useteamzones   "true"
 }
 
 {
@@ -414,6 +448,7 @@
     allieschar  "socom_141_desert"
     axischar    "militia"
     environment   "urban"
+    useteamzones   "true"
 }
 
 {
@@ -426,6 +461,7 @@
     allieschar  "socom_141_forest"
     axischar    "militia"
     environment   "forest"
+    useteamzones   "true"
 }
 
 {
@@ -438,6 +474,7 @@
     allieschar  "socom_141_forest"
     axischar    "militia"
     environment   "forest"
+    useteamzones   "true"
 }
 
 {
@@ -450,6 +487,7 @@
     allieschar  "seals_udt"
     axischar    "opforce_arctic"
     environment   "urban"
+    useteamzones   "true"
 }
 
 {
@@ -462,6 +500,7 @@
     allieschar  "us_army"
     axischar    "opforce_composite"
     environment   "urban"
+    useteamzones   "true"
 }
 
 {
@@ -474,6 +513,7 @@
     allieschar  "socom_141_desert"
     axischar    "opforce_composite"
     environment   "desert"
+    useteamzones   "true"
 }
 
 {
@@ -486,6 +526,7 @@
     allieschar  "socom_141_desert"
     axischar    "opforce_airborne"
     environment   "urban"
+    useteamzones   "true"
 }
 
 {
@@ -498,6 +539,7 @@
     allieschar  "socom_141_desert"
     axischar    "opforce_composite"
     environment   "desert"
+    useteamzones   "true"
 }
 
 {
@@ -510,6 +552,7 @@
     allieschar  "socom_141_desert"
     axischar    "opforce_composite"
     environment   "desert"
+    useteamzones   "true"
 }
 
 {
@@ -522,6 +565,7 @@
     allieschar  "socom_141_arctic"
     axischar    "opforce_arctic"
     environment   "arctic"
+    useteamzones   "true"
 }
 
 {
@@ -534,6 +578,7 @@
     allieschar  "seals_udt"
     axischar    "opforce_arctic"
     environment   "desert"
+    useteamzones   "true"
 }
 
 {
@@ -546,6 +591,7 @@
    allieschar  "us_army"
     axischar    "opforce_airborne"
     environment "urban"
+    useteamzones   "true"
 }
 
 {
@@ -558,6 +604,7 @@
     allieschar  "us_army"
     axischar    "opforce_airborne"
     environment "urban"
+    useteamzones   "true"
 }
 
 {
@@ -570,6 +617,7 @@
     allieschar  "socom_141_desert"
     axischar    "opforce_composite"
     environment "desert"
+    useteamzones   "true"
 }
 
 {
@@ -582,6 +630,7 @@
     allieschar  "socom_141_desert"
     axischar    "opforce_composite"
     environment   "desert"
+    useteamzones   "true"
 }
 
 {
@@ -594,4 +643,5 @@
     allieschar  "us_army"
     axischar    "opforce_airborne"
     environment "urban"
+    useteamzones   "true"
 }
