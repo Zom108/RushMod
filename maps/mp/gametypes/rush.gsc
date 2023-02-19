@@ -126,8 +126,6 @@ main()
 	if ( getDvar( "mapname" ) == "mp_background" )
 		return;
 
-	checkforrushents = getentarray( "mp_rush_attacker_spawn_1", "classname" );
-
 	maps\mp\gametypes\_globallogic::init();
 	maps\mp\gametypes\_callbacksetup::SetupCallbacks();
 	maps\mp\gametypes\_globallogic::SetupCallbacks();
@@ -140,10 +138,10 @@ main()
 	registerNumLivesDvar( level.gameType, 0, 0, 10 );
 	registerHalfTimeDvar( level.gameType, 0, 0, 1 );
 
-	setdvarifuninitialized( "scr_" + level.gametype + "_tickets", 150 );
-	setdvarifuninitialized( "scr_" + level.gametype + "_bombPoints", 30 );
-	setdvarifuninitialized( "scr_" + level.gametype + "_spawnMethod", 1 );
-	setdvarifuninitialized( "scr_" + level.gametype + "_ticketmultiplier", 1 );
+	setDvarIfUninitialized( "scr_" + level.gametype + "_tickets", 150 );
+	setDvarIfUninitialized( "scr_" + level.gametype + "_bombPoints", 30 );
+	setDvarIfUninitialized( "scr_" + level.gametype + "_spawnMethod", 1 );
+	setDvarIfUninitialized( "scr_" + level.gametype + "_ticketmultiplier", 1 );
 
 	level.objectiveBased = true;
 	level.teamBased = true;
@@ -152,6 +150,12 @@ main()
 	level.onNormalDeath = ::onNormalDeath;
 	level.initGametypeAwards = ::initGametypeAwards;
 	level.onSpawnPlayer = ::onSpawnPlayer;
+
+	level.safeSpawns = [];
+	level.safeSpawns["attackers"] = [];
+	level.safeSpawns["defenders"] = [];
+
+	checkforrushents = getentarray( "mp_rush_attacker_spawn_1", "classname" );
 
 	if ( checkforrushents.size != 0 )
 	{
@@ -220,7 +224,7 @@ KillCamMonitor()
 
 visionTriggers()
 {
-	setdvarifuninitialized( "scr_" + level.gametype + "_mapVisions", 250 );
+	setDvarIfUninitialized( "scr_" + level.gametype + "_mapVisions", 250 );
 
 	if ( getDvarInt( "scr_" + level.gametype + "_mapVisions" ) == 0 )
 		return;
@@ -414,12 +418,15 @@ removeEnt( classname, entName, mapSpecific, origin )
 
 	if ( tempThing.size >= 1 )
 	{
-		if ( isDefined( mapspecific ) && getDvar( "mapname" ) != mapspecific )
+		if ( isDefined( mapspecific ) && level.script != mapspecific )
 			return false;
 		else
 		{
 			for ( i = 0; i <= tempThing.size; i++ )
 			{
+				if ( !isDefined( tempThing[i] ) )
+					continue;
+
 				if ( isDefined( origin ) )
 				{
 					if ( origin == tempThing[i].origin )
@@ -641,17 +648,20 @@ onPrecacheGameType()
 	precacheString( &"MP_BOMB_B_TIMER" );
 	precacheString( &"MP_BOMBSITE_IN_USE" );
 
+	precacheString( &"MP_TARGET_DESTROYED" );
+	precacheString( &"MP_BOMB_DEFUSED" );
+
+	level._effect["bombexplosion"] = loadfx( "explosions/tanker_explosion" );
+
 	thread handleEntities();
 }
 
 onStartGameType()
 {
-	//setClientNameMode("auto_change");
+	setClientNameMode( "auto_change" );
 
 	checkForBombs = getEntArray( "rushzone", "targetname" );
 	checkForSpawnsAttack = getEntArray( "mp_rush_spawn_attackers_start", "targetname" );
-
-	wait 0.06;
 
 	if ( !isDefined( game["switchedsides"] ) )
 		game["switchedsides"] = false;
@@ -675,10 +685,6 @@ onStartGameType()
 	game["strings"]["target_destroyed"] = &"MP_TARGET_DESTROYED";
 	game["strings"]["bomb_defused"] = &"MP_BOMB_DEFUSED";
 
-	precacheString( game["strings"]["target_destroyed"] );
-	precacheString( game["strings"]["bomb_defused"] );
-
-	level._effect["bombexplosion"] = loadfx( "explosions/tanker_explosion" );
 
 	setObjectiveText( game["attackers"], &"OBJECTIVES_DD_ATTACKER" );
 	setObjectiveText( game["defenders"], &"OBJECTIVES_DD_DEFENDER" );
@@ -791,7 +797,7 @@ onStartGameType()
 
 updateGametypeDvars()
 {
-	//setdvarifuninitialized("scr_" + level.gametype + "_spawnMethod", 1);
+	//setDvarIfUninitialized("scr_" + level.gametype + "_spawnMethod", 1);
 
 	level.plantTime = dvarFloatValue( "planttime", 5, 0, 20 );
 	level.defuseTime = dvarFloatValue( "defusetime", 5, 0, 20 );
@@ -1201,13 +1207,16 @@ spawnRushBombs()
 
 		trigger = level.bombZones[index];
 		visuals = getEntArray( level.bombZones[index].target, "targetname" );
-		trigger thread spawnFakeCollision();
 		bombZone = maps\mp\gametypes\_gameobjects::createUseObject( game["defenders"], trigger, visuals, ( 0, 0, 64 ) );
 		bombZone maps\mp\gametypes\_gameobjects::allowUse( "enemy" );
 		bombZone maps\mp\gametypes\_gameobjects::setUseTime( level.plantTime );
 		bombZone maps\mp\gametypes\_gameobjects::setUseText( &"MP_PLANTING_EXPLOSIVE" );
 		bombZone maps\mp\gametypes\_gameobjects::setUseHintText( &"PLATFORM_HOLD_TO_PLANT_EXPLOSIVES" );
 		bombZone maps\mp\gametypes\_gameobjects::setKeyObject( level.ddBomb );
+
+		bombZone.fakeCollision = spawn( "script_model", bombZone.origin );
+		bombZone.fakeCollision cloneBrushModelToScriptModel( level.airDropCrateCollision );
+		bombZone.fakeCollision solid();
 
 		label = bombZone maps\mp\gametypes\_gameobjects::getLabel();
 		bombZone.index = i + 1;
@@ -1253,17 +1262,6 @@ spawnRushBombs()
 		level notify( "final_rushbombs" );
 
 	level.aliveBombs = 2;
-}
-
-spawnFakeCollision()
-{
-	scriptCollision = spawn( "script_model", self.origin + ( 0, 0, 60 ) );
-	scriptCollision setmodel( "com_plassticcase_friendly" );
-	scriptCollision.angles = self.angles;
-	scriptCollision solid();
-	scriptCollision CloneBrushmodelToScriptmodel( level.airDropCrateCollision );
-	bombzone.scriptCollision linkto( bombzone );
-	bombzone.scriptCollision hide();
 }
 
 getSpawnPointMPmap()
