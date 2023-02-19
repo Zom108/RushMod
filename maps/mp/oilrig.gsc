@@ -33,26 +33,22 @@ self_delete()
 
 exploding_barrels()
 {
-	barrelPosition = (661, 1456, -241);
+	barrelPosition = ( 661, 1456, -241 );
 	level.barrelsExploded = false;
 
-	while (!level.barrelsExploded)
+	while ( !level.barrelsExploded )
 	{
 		wait 0.1;
 
-		foreach (player in level.players)
+		foreach ( player in level.players )
 		{
-			if (!isDefined(player) || !isPlayer(player))
-			{
+			if ( !isDefined( player ) || !isPlayer( player ) )
 				continue;
-			}
-			
-			if (distance(player.origin, barrelPosition) < 75)
+
+			if ( distance( player.origin, barrelPosition ) < 75 )
 			{
-				if (player useButtonPressed())
-				{
+				if ( player useButtonPressed() )
 					player explodeBarrels();
-				}
 			}
 		}
 	}
@@ -62,46 +58,40 @@ explodeBarrels()
 {
 	level.barrelsExploded = true;
 
-	barrels = getEntArray("c4_barrel", "targetname");
-	
-	foreach (barrel in barrels)
+	barrels = getEntArray( "c4_barrel", "targetname" );
+
+	foreach ( barrel in barrels )
 	{
-		if (barrel.origin[2] > -350.0)
-		{
-			barrel kaboom(self);
-		}
+		if ( barrel.origin[2] > -350.0 )
+			barrel kaboom( self );
 	}
 }
 
-kaboom(player)
+kaboom( player )
 {
-	self playSound("oilrig_ambush_explosion");
+	self playSound( "oilrig_ambush_explosion" );
 	//effect = loadFX("explosions/small_vehicle_explosion");
 	level._effect[ "ambush_explosion_room" ] = loadfx( "explosions/room_explosion_oilrig" );
-	playFX(level._effect["ambush_explosion_room"], self.origin);
-	earthquake(0.3, 1, self.origin, 300);
-	radiusDamage(self.origin, 150, 100, 60, player);
+	playFX( level._effect["ambush_explosion_room"], self.origin );
+	earthquake( 0.3, 1, self.origin, 300 );
+	radiusDamage( self.origin, 150, 100, 60, player );
 
 	//self delete();
 }
 
 custom_killtrigger()
 {
-	while (true)
+	for ( ;; )
 	{
 		wait 0.1;
 
-		foreach (player in level.players)
+		foreach ( player in level.players )
 		{
-			if (!isDefined(player) || !isPlayer(player))
-			{
+			if ( !isDefined( player ) || !isPlayer( player ) )
 				continue;
-			}
 
-			if (player.origin[2] < -350.0)
-			{
+			if ( player.origin[2] < -350.0 )
 				player suicide();
-			}
 		}
 	}
 }
@@ -112,20 +102,21 @@ killtrigger_ocean_on()
 	assert( isdefined( killtrigger_ocean ) );
 	killtrigger_ocean notify( "turn_off" );
 	killtrigger_ocean endon( "turn_off" );
-	while( true )
+
+	for ( ;; )
 	{
 		killtrigger_ocean waittill( "trigger", other );
-		if ( ( isdefined( other ) ) && ( isPlayer ( other ) ) )
-		{
+
+		if ( ( isdefined( other ) ) && ( isPlayer( other ) ) )
 			other suicide();
-		}
 	}
 }
 
 compass_triggers_think()
 {
 	assertex( isdefined( self.script_noteworthy ), "compassTrigger at " + self.origin + " needs to have a script_noteworthy with the name of the minimap to use" );
-	while( true )
+
+	for ( ;; )
 	{
 		wait( 1 );
 		self waittill( "trigger" );
@@ -136,12 +127,14 @@ compass_triggers_think()
 createSpawnpoint( classname, origin, yaw )
 {
 	spawnpoint = spawn( "script_origin", origin );
-	spawnpoint.angles = (0,yaw,0);
-	
+	spawnpoint.angles = ( 0, yaw, 0 );
+
 	if ( !isdefined( level.extraspawnpoints ) )
 		level.extraspawnpoints = [];
+
 	if ( !isdefined( level.extraspawnpoints[classname] ) )
 		level.extraspawnpoints[classname] = [];
+
 	level.extraspawnpoints[classname][ level.extraspawnpoints[classname].size ] = spawnpoint;
 }
 
@@ -156,7 +149,8 @@ level_think()
 	assert( isdefined( eDerrick_thing ) );
 	time = 2;
 	speed = 300;
-	while ( true )
+
+	for ( ;; )
 	{
 		eDerrick_thing rotatevelocity( ( 0, speed, 0 ), time );
 		wait( time );

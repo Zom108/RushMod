@@ -13,8 +13,6 @@ main()
 	level._effect[ "grenade_wood" ] 									 = LoadFX( "explosions/grenadeExp_wood" );
 	level._effect[ "headshot" ]											 = LoadFX( "impacts/flesh_hit_head_fatal_exit" );
 
-
-
 	level._effect[ "hallway_collapsing" ]								 = LoadFX( "misc/hallway_collapsing" );
 	level._effect[ "hallway_collapsing_big" ] 							 = LoadFX( "misc/hallway_collapsing_big" );
 	level._effect[ "hallway_collapsing_huge" ] 							 = LoadFX( "misc/hallway_collapsing_huge" );
@@ -38,8 +36,6 @@ main()
 	//Player Footstep fx
 	level._effect[ "footstep_snow_small" ]								 = LoadFX( "impacts/footstep_snow_small" );
 	level._effect[ "footstep_snow" ]									 = LoadFX( "impacts/footstep_snow" );
-
-//	
 
 	level._effect[ "ceiling_collapse_dirt1" ] 							 = LoadFX( "dust/ceiling_collapse_dirt1" );
 	level._effect[ "ceiling_collapse_dirt1_decal" ] 					 = LoadFX( "dust/ceiling_collapse_dirt1_decal" );
@@ -94,8 +90,6 @@ main()
 	level._effect[ "minigun_shell_eject" ] 								 = LoadFX( "shellejects/20mm_mp" );
 	level._effect[ "f15_missile" ] 										 = LoadFX( "smoke/smoke_geotrail_sidewinder" );
 
-
-
 	level._effect[ "missile_brackets" ] 								 = LoadFX( "misc/missile_brackets" );
 	level._effect[ "javelin_ignition" ] 								 = LoadFX( "misc/javelin_ignition_gulag" );
 	level._effect[ "jet_afterburner_ignite" ] 							 = LoadFX( "fire/jet_afterburner_ignite" );
@@ -123,9 +117,7 @@ main()
 
 	level._effect[ "missile_trail" ]									 = LoadFX( "smoke/gulag_missile_trail" );
 
-
-	//Ambient FX	
-
+	//Ambient FX
 	level._effect[ "powerline_runner_10sec_line" ]						 = LoadFX( "explosions/powerline_runner_10sec_line" );
 	level._effect[ "amb_ash" ]											 = LoadFX( "smoke/amb_ash" );
 	level._effect[ "amb_smoke_blend" ]									 = LoadFX( "smoke/amb_smoke_blend" );
@@ -162,7 +154,7 @@ main()
 
 
 	if ( !isdefined( level.script ) )
-		level.script = ToLower( GetDvar( "mapname" ) );
+		level.script = toLower( GetDvar( "mapname" ) );
 
 	if ( !getdvarint( "r_reflectionProbeGenerate" ) )
 		maps\createfx\gulag_fx::main();
@@ -170,10 +162,10 @@ main()
 
 	/*
 	// a way to move a bunch of fx!
-	
+
 	// the old location minus the new location
 	vec = ( 115877, 30087.7, -1328 ) - ( 94224, 24518.2, -1328 );
-	
+
 	foreach ( fx in level.createFxEnt )
 	{
 		if ( fx.v[ "origin" ][ 0 ] > 50063 )
@@ -182,17 +174,4 @@ main()
 		}
 	}
 	*/
-}
-
-f15_smoke()
-{
-	self endon( "death" );
-	smoke = getfx( "f15_smoke" );
-
-	for ( ;; )
-	{
-		PlayFXOnTag( smoke, self, "tag_engine_left" );
-		StopFXOnTag( smoke, self, "tag_engine_right" );
-		wait( 0.01 );
-	}
 }

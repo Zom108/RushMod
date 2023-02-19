@@ -6,9 +6,8 @@ main()
 	level._effect[ "thick_black_smoke_L" ]								= loadfx( "smoke/thick_black_smoke_L" );
 	level._effect[ "minigun_burnout" ]									= loadfx( "smoke/minigun_burnout" );
 	level._effect[ "rocket_explode" ]									= loadfx( "explosions/grenadeExp_dirt_1" );
-	
+
 	level._effect[ "bmp_explosion" ]									= loadfx( "explosions/vehicle_explosion_bmp" );
-	
 
 	level._effect[ "mortar_muzzle" ] 									= loadfx( "muzzleflashes/mortar_flash" );
 	level._effect[ "rpg_trail" ] 										= loadfx( "smoke/smoke_geotrail_rpg" );
@@ -16,10 +15,10 @@ main()
 	level._effect[ "m203" ] 											= loadfx( "muzzleflashes/m203_flshview" );
 	level._effect[ "car_dirt" ] 										= loadfx( "impacts/large_dirt_1" );
 	level._effect[ "car_spark" ] 										= loadfx( "impacts/large_metalhit_1" );
-	
+
 	level._effect[ "headshot" ]											= loadfx( "impacts/flesh_hit_head_fatal_exit" );
 	level._effect[ "bodyshot" ]											= loadfx( "impacts/flesh_hit" );
-                                                        				
+
 	level._effect[ "100ton_bomb" ]										= loadfx( "explosions/100ton_bomb" );
 	level._effect[ "100ton_bomb_shockwave" ]							= loadfx( "explosions/100ton_bomb_shockwave" );
 	level._effect[ "100ton_bomb_secondary" ]							= loadfx( "explosions/100ton_bomb_secondary" );
@@ -57,23 +56,21 @@ main()
 	level._effect[ "dust_wind_fast" ]					= loadfx( "dust/dust_wind_fast" );
 	level._effect[ "dust_wind_fast_light" ] 			= LoadFX( "dust/dust_wind_fast_light" );
 	level._effect[ "insects_carcass_runner" ] 			= LoadFX( "misc/insects_carcass_runner" );
-	
-
 
 	/*-----------------------
 	MORTAR EFFECTS & SOUNDS
-	-------------------------*/	
+	-------------------------*/
 	//level._effect[ "mortar" ][ "bunker_ceiling" ]		 = loadfx( "dust/ceiling_dust_default" );
 	level._effect[ "mortar_large" ] 					= loadfx( "explosions/artilleryExp_dirt_brown_2" );
 	level._effect[ "mortar_water" ] 					= loadfx( "explosions/mortarExp_water" );
 	level._effect[ "vehicle_scrape_sparks" ]			= loadfx( "misc/vehicle_scrape_sparks" );
-	
+
 	level._effect[ "building_explosion_gulag" ]			= loadfx( "explosions/building_explosion_gulag" );
 	//level._effect[ "mortar" ][ "dirt" ]					 = loadfx( "explosions/grenadeExp_dirt" );
 	//level._effect[ "mortar" ][ "mud" ]					 = loadfx( "explosions/grenadeExp_mud" );
 	//level._effect[ "mortar" ][ "water" ]				 = loadfx( "explosions/grenadeExp_water" );
 	//level._effect[ "mortar" ][ "concrete" ]				 = loadfx( "explosions/grenadeExp_concrete" );
-	
+
 	/*
 	level.scr_sound[ "mortar" ][ "incomming" ]				 = "mortar_incoming";
 	level.scr_sound[ "mortar" ][ "dirt" ]					 = "mortar_explosion_dirt";
@@ -82,6 +79,5 @@ main()
 	level.scr_sound[ "mortar" ][ "mud" ]					 = "mortar_explosion_water";
 	*/
 
-
-	maps\createfx\roadkill_fx::main();	
+	maps\createfx\roadkill_fx::main();
 }

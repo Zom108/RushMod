@@ -1,0 +1,5 @@
+*.stat
+*.log
+missingasset.csv
+demos/
+logs/
