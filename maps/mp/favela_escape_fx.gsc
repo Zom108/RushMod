@@ -1,14 +1,14 @@
 #include common_scripts\utility;
 
 main()
-{	
+{
 	level._effect[ "technical_gate_shatter" ] = LoadFX( "explosions/wood_explosion_1" );
-	
+
 	level._effect[ "bird_takeoff_pm" ] = LoadFX( "misc/bird_takeoff_pm" );
-	
+
 	level._effect[ "headshot" ] = LoadFX( "impacts/flesh_hit_head_fatal_exit" );
 	level._effect[ "bodyshot" ]	= LoadFX( "impacts/flesh_hit" );
-	
+
 	// ambient level fx
 	level._effect[ "insects_carcass_runner" ] 	= LoadFX( "misc/insects_carcass_runner" );
 	level._effect[ "firelp_med_pm" ] 			= LoadFX( "fire/firelp_med_pm" );
@@ -36,38 +36,36 @@ main()
 	level._effect[ "airliner_wingtip_right" ]	= LoadFX( "misc/aircraft_light_wingtip_red" );
 	level._effect[ "airliner_tail" ]			= LoadFX( "misc/aircraft_light_white_blink" );
 	level._effect[ "airliner_belly" ]			= LoadFX( "misc/aircraft_light_red_blink" );
-	
+
 	// fake chopper shellejects
 	level._effect[ "hind_fake_shelleject" ] = LoadFX( "shellejects/20mm_cargoship" );
-	
+
 	// fake rotor wash dust
 	level._effect[ "hind_fake_rotorwash_dust" ] = LoadFX( "treadfx/heli_dust_icbm" );
-	
+
 	// chopper flares
 	level.flare_fx[ "pavelow" ] = LoadFX( "misc/flares_cobra" );
-	
+
 	// fake explosions for the chopper owning
 	level._effect[ "hind_fake_explosion_1" ] = LoadFX( "explosions/grenadeexp_metal" );
 	level._effect[ "hind_fake_explosion_2" ] = LoadFX( "explosions/circuit_breaker" );
 	level._effect[ "hind_fake_explosion_3" ] = LoadFX( "explosions/pillar_explosion_brick_invasion" );
-	
+
 	// fx for player falling
 	level._effect[ "playerfall_impact" ] = LoadFX( "impacts/bodyfall_dust_large" );
 	level._effect[ "playerfall_residual" ] = LoadFX( "explosions/breach_room_residual" );
-	
+
 	// fake squibs around player
 	level._effect[ "squib_plaster" ] = LoadFX( "impacts/large_plaster" );
-	
-	
+
+
 	level._effect[ "flashlight" ] = LoadFX( "misc/gulag_cafe_spotlight" );
-	
+
 	maps\createart\favela_escape_art::main();
 	maps\createfx\favela_escape_fx::main();
 
 	//levelstart_fx_setup();
-	
 }
-
 
 bird_startle_trigs()
 {
@@ -79,10 +77,10 @@ bird_startle_trig_think()
 {
 	ASSERT( IsDefined( self.script_exploder ), "Bird startle trigger at origin " + self.origin + " doesn't have script_exploder set." );
 	exploderName = self.script_exploder;
-	
+
 	self waittill( "trigger" );
 	level thread exploder( exploderName );
-	
+
 	self Delete();
 }
 
@@ -95,9 +93,10 @@ levelstart_fx_setup()
 flickerlight_fire()
 {
 	wait( RandomFloatRange( .05, .5 ) );
-	
+
 	intensity = self GetLightIntensity();
-	while( 1 )
+
+	for ( ;; )
 	{
 		self SetLightIntensity( intensity * RandomFloatRange( 1.2, 2.2 ) );
 		wait( RandomFloatRange( .05, 1 ) );

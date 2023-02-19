@@ -155,19 +155,12 @@ main()
 	level.safeSpawns["attackers"] = [];
 	level.safeSpawns["defenders"] = [];
 
-	checkforrushents = getentarray( "mp_rush_attacker_spawn_1", "classname" );
+	level.useRushSpawns = getEntArray( "mp_rush_attacker_spawn_1", "classname" ).size > 0;
 
-	if ( checkforrushents.size != 0 )
-	{
-		level.useRushSpawns = 1;
+	if ( level.useRushSpawns )
 		level.getSpawnPoint = ::getSpawnPoint;
-	}
-
-	if ( checkforrushents.size == 0 )
-	{
+	else
 		level.getSpawnPoint = ::getSpawnPointMPmap;
-		level.useRushSpawns = 0;
-	}
 
 	setBombTimerDvar();
 
@@ -194,32 +187,6 @@ main()
 
 	thread maps\mp\_escapefields::escapeZones();
 	thread visionTriggers();
-	thread onPlayerConnect();
-}
-
-onPlayerConnect()
-{
-	for ( ;; )
-	{
-		level waittill( "connected", player );
-		player thread KillCamMonitor();
-	}
-}
-
-KillCamMonitor()
-{
-	self endon( "disconnect" );
-
-	self.isWatchingKillcam = 0;
-
-	for ( ;; )
-	{
-		self waittill( "begin_killcam" );
-		self.isWatchingKillcam = 1;
-
-		self waittill_any( "killcam_ended", "abort_killcam" );
-		self.isWatchingKillcam = 0;
-	}
 }
 
 visionTriggers()
@@ -229,7 +196,7 @@ visionTriggers()
 	if ( getDvarInt( "scr_" + level.gametype + "_mapVisions" ) == 0 )
 		return;
 
-	visionTriggs = getentarray( "trigger_multiple_visionset", "classname" );
+	visionTriggs = getEntArray( "trigger_multiple_visionset", "classname" );
 
 	foreach ( visiontrigger in visionTriggs )
 		visiontrigger thread playerSetTrigVision();
@@ -282,9 +249,8 @@ handleEntities()
 	removeEnt( "targetname", "creek_gate", "co_hunted" );
 	removeEnt( "targetname", "farmer_front_door", "co_hunted" );
 	removeEnt( "target", "farmer_front_door", "co_hunted" );
-//Sorry guys, had to remove the "awesomeness".
 
-//removeEnt("targetname", "radiation", "so_ghillies", (-23930.8, 5494.85, 244.08));
+	//removeEnt("targetname", "radiation", "so_ghillies", (-23930.8, 5494.85, 244.08));
 	removeEnt( "targetname", "radiation", "so_ghillies", ( -23132.7, 5714.74, 201.562 ) );
 	removeEnt( "targetname", "radiation", "so_ghillies", ( -22159.1, 5767.11, 211.463 ) );
 	removeEnt( "targetname", "radiation", "so_ghillies", ( -22159.1, 5767.11, 211.463 ) );
@@ -310,13 +276,14 @@ handleEntities()
 	removeEnt( "classname", "script_model", "boneyard", ( -4021.78, -2817.49, -6.97812 ) );
 
 	level thread spawnJumpTrigger( ( 4534.27, 4526.53, -3255.39 ), 90, 300, 2, "af_caves" );
-
 	level thread spawnJumpTrigger( ( -7168.4, 1711.13, 675.67 ), 10, 200, 2, "favela_escape" );
 	level thread spawnJumpTrigger( ( -9114, 1303, 395 ), 50, 100, 1.7, "favela_escape" );
+
 	level thread spawnFakeMantle( ( -8333, 1834, 509 ), ( -8372, 1989, 640 ), "favela_escape", "Press and hold ^3[{+activate}]^7 to climb" );
 	level thread spawnFakeMantle( ( -8378.48, 1734.88, 449.054 ), ( -8313.39, 1829.9, 470.125 ), "favela_escape", "Press and hold ^3[{+activate}]^7 to climb" );
 	level thread spawnFakeMantle( ( -9111, 1500, 260 ), ( -9150, 1400, 453 ), "favela_escape", "Press and hold ^3[{+activate}]^7 to climb" );
 	level thread spawnFakeMantle( ( -6185, -1111, 776 ), ( -6000, -950, 1218 ), "favela_escape", "Press and hold ^3[{+activate}]^7 to climb" );
+
 	removeEnt( "targetname", "sbmodel_market_evac_door1", "favela_escape" );
 	removeEnt( "targetname", "sbmodel_market_evac_door2", "favela_escape" );
 	removeEnt( "targetname", "sbmodel_market_evac_door3", "favela_escape" );
@@ -326,7 +293,6 @@ handleEntities()
 	removeEnt( "targetname", "sbmodel_radiotower_doorkick_1", "favela_escape" );
 	removeEnt( "targetname", "sbmodel_radiotower_gate_right", "favela_escape" );
 	removeEnt( "targetname", "sbmodel_radiotower_gate_left", "favela_escape" );
-
 
 	level thread spawnFakeMantle( ( -1568, -1972, 636 ), ( -1482, -1854, 596 ), "gulag" );
 	level thread spawnFakeMantle( ( -732, 2236, 156 ), ( -4243, 1699, 204 ), "gulag" );
@@ -414,7 +380,7 @@ spawnEntModel( mapSpecific, origin, model, destructible_type )
 
 removeEnt( classname, entName, mapSpecific, origin )
 {
-	tempThing = getentarray( entName, classname );
+	tempThing = getEntArray( entName, classname );
 
 	if ( tempThing.size >= 1 )
 	{
@@ -464,7 +430,7 @@ BoardTickets()
 		self.TicketsHUD[0] setPoint( "CENTER", "CENTER", -240, -214 );
 	}
 
-	wait 0.06;
+	wait 0.05;
 
 	for ( ;; )
 	{
@@ -518,7 +484,6 @@ onSpawnPlayer()
 pointsHandle( team, value, multiplePerPlayer )
 {
 	orgValue = level.teamtickets[team];
-	wait 0.054;
 
 	if ( isDefined( multiplePerPlayer ) && multiplePerPlayer == 1 && level.ticketmultiplier == 1 )
 		level.teamtickets[team] += ( value * countTeamPlayers( team ) );
@@ -526,8 +491,6 @@ pointsHandle( team, value, multiplePerPlayer )
 		level.teamtickets[team] += value;
 
 	/*
-	wait 1;
-
 	foreach ( player in level.players )
 	{
 		if ( level.teamtickets[team] >= OrgValue )
@@ -540,15 +503,14 @@ pointsHandle( team, value, multiplePerPlayer )
 
 countTeamPlayers( teamReturn )
 {
-	players = level.players;
 	allies = 0;
 	axis = 0;
 
-	for ( i = 0; i < players.size; i++ )
+	foreach ( player in level.players )
 	{
-		if ( isDefined( players[i].pers["team"] ) && players[i].pers["team"] == "allies" )
+		if ( isDefined( player.pers["team"] ) && player.pers["team"] == "allies" )
 			allies++;
-		else if ( isDefined( players[i].pers["team"] ) && players[i].pers["team"] == "axis" )
+		else if ( isDefined( player.pers["team"] ) && player.pers["team"] == "axis" )
 			axis++;
 	}
 
@@ -685,20 +647,11 @@ onStartGameType()
 	game["strings"]["target_destroyed"] = &"MP_TARGET_DESTROYED";
 	game["strings"]["bomb_defused"] = &"MP_BOMB_DEFUSED";
 
-
 	setObjectiveText( game["attackers"], &"OBJECTIVES_DD_ATTACKER" );
 	setObjectiveText( game["defenders"], &"OBJECTIVES_DD_DEFENDER" );
 
-	if ( level.splitscreen )
-	{
-		setObjectiveScoreText( game["attackers"], &"OBJECTIVES_DD_ATTACKER" );
-		setObjectiveScoreText( game["defenders"], &"OBJECTIVES_DD_DEFENDER" );
-	}
-	else
-	{
-		setObjectiveScoreText( game["attackers"], &"OBJECTIVES_DD_ATTACKER_SCORE" );
-		setObjectiveScoreText( game["defenders"], &"OBJECTIVES_DD_DEFENDER_SCORE" );
-	}
+	setObjectiveScoreText( game["attackers"], &"OBJECTIVES_DD_ATTACKER_SCORE" );
+	setObjectiveScoreText( game["defenders"], &"OBJECTIVES_DD_DEFENDER_SCORE" );
 
 	setObjectiveHintText( game["attackers"], &"OBJECTIVES_DD_ATTACKER_HINT" );
 	setObjectiveHintText( game["defenders"], &"OBJECTIVES_DD_DEFENDER_HINT" );
@@ -706,7 +659,7 @@ onStartGameType()
 	level.spawnMins = ( 0, 0, 0 );
 	level.spawnMaxs = ( 0, 0, 0 );
 
-	if ( level.useRushSpawns == 0 )
+	if ( !level.useRushSpawns )
 	{
 		//level thread setupNonRushSpawns();
 
@@ -717,33 +670,16 @@ onStartGameType()
 		maps\mp\gametypes\_spawnlogic::addSpawnPoints( "allies", "mp_tdm_spawn" );
 		maps\mp\gametypes\_spawnlogic::addSpawnPoints( "axis", "mp_tdm_spawn" );
 	}
-
-	if ( level.useRushSpawns == 1 )
+	else
 	{
 		placeNewSpawnPoint( "mp_rush_attacker_spawn_start" );
 		placeNewSpawnPoint( "mp_rush_defender_spawn_start" );
 
-		placeNewSpawnPoint( "mp_rush_defender_spawn_1" );
-		placeNewSpawnPoint( "mp_rush_defender_spawn_2" );
-		placeNewSpawnPoint( "mp_rush_defender_spawn_3" );
-		placeNewSpawnPoint( "mp_rush_defender_spawn_4" );
-		placeNewSpawnPoint( "mp_rush_defender_spawn_5" );
-		placeNewSpawnPoint( "mp_rush_defender_spawn_6" );
-		placeNewSpawnPoint( "mp_rush_defender_spawn_7" );
-		placeNewSpawnPoint( "mp_rush_defender_spawn_8" );
-		placeNewSpawnPoint( "mp_rush_defender_spawn_9" );
-		placeNewSpawnPoint( "mp_rush_defender_spawn_10" );
-
-		placeNewSpawnPoint( "mp_rush_attacker_spawn_1" );
-		placeNewSpawnPoint( "mp_rush_attacker_spawn_2" );
-		placeNewSpawnPoint( "mp_rush_attacker_spawn_3" );
-		placeNewSpawnPoint( "mp_rush_attacker_spawn_4" );
-		placeNewSpawnPoint( "mp_rush_attacker_spawn_5" );
-		placeNewSpawnPoint( "mp_rush_attacker_spawn_6" );
-		placeNewSpawnPoint( "mp_rush_attacker_spawn_7" );
-		placeNewSpawnPoint( "mp_rush_attacker_spawn_8" );
-		placeNewSpawnPoint( "mp_rush_attacker_spawn_9" );
-		placeNewSpawnPoint( "mp_rush_attacker_spawn_10" );
+		for ( i = 1; i <= 10; i++ )
+		{
+			placeNewSpawnPoint( "mp_rush_defender_spawn_" + i );
+			placeNewSpawnPoint( "mp_rush_attacker_spawn_" + i );
+		}
 	}
 
 	level.mapCenter = maps\mp\gametypes\_spawnlogic::findBoxCenter( level.spawnMins, level.spawnMaxs );
@@ -767,8 +703,6 @@ onStartGameType()
 	maps\mp\gametypes\_rank::registerScoreInfo( "plant", 100 );
 	maps\mp\gametypes\_rank::registerScoreInfo( "defuse", 100 );
 
-	wait 0.08;
-
 	thread updateGametypeDvars();
 	thread waitToProcess();
 
@@ -785,8 +719,6 @@ onStartGameType()
 	level.aliveBombsPlanted = 0;
 
 	level thread ticketHandler();
-
-	wait 0.06;
 
 	if ( checkForBombs.size >= 1 )
 	{
@@ -808,10 +740,8 @@ updateGametypeDvars()
 	level.bombPoints = dvarIntValue( "bombPoints", 7, 0, 7 );
 	level.spawnMethod = dvarIntValue( "spawnMethod", 2, 0, 2 );
 	level.forceRespawnTimer = dvarIntValue( "forceRespawnTimer", 7, 0, 7 );
-	wait 1;
 	level.plantTimeOrg = getDvarInt( "scr_" + level.gametype + "_planttime" );
 }
-
 
 safeSpawns()
 {
@@ -874,7 +804,7 @@ setupnonrushspawns()
 
 	for ( i = 0; i <= level.startSpawn.size; i++ )
 	{
-		level.tempCheckEnts = getentarray( level.startSpawn[i], "classname" );
+		level.tempCheckEnts = getEntArray( level.startSpawn[i], "classname" );
 
 		if ( level.tempCheckEnts.size >= 1 )
 		{
@@ -886,54 +816,29 @@ setupnonrushspawns()
 			else
 				level.nonRushSpawns[level.nonRushSpawns.size + 1] = level.startSpawn[i];
 		}
-
-		wait 0.06;
 	}
 
-	for ( r = 0; r <= level.otherNRushspawns.size; r++ )
+	for ( j = 0; j <= level.otherNRushspawns.size; j++ )
 	{
-		level.tempCheckEnts = getentarray( level.otherNRushspawns[r], "classname" );
+		level.tempCheckEnts = getEntArray( level.otherNRushspawns[j], "classname" );
 
 		if ( level.tempCheckEnts.size >= 1 )
 		{
-			level.otherNRushspawns[r].canbeused = 1;
-			level.nonRushSpawns[level.nonRushSpawns.size + 1] = level.otherNRushspawns[r];
+			level.otherNRushspawns[j].canbeused = 1;
+			level.nonRushSpawns[level.nonRushSpawns.size + 1] = level.otherNRushspawns[j];
 		}
-
-		wait 0.06;
 	}
 
 	axisStartup = ImOutOfFunctionNames( "axis", "attacker" );
 	alliesStartup = ImOutOfFunctionNames( "allies", "defender" );
 
-	wait 0.3;
-
-	level.axisStartup = getentarray( level.axisStartup, "classname" );
-	level.alliesStartup = getentarray( level.alliesStartup, "classname" );
-
-}
-
-LoopBestTeamSpawn( team )
-{
-	/*
-	level endon("game_ended");
-	for ( ;; )
-	{
-		for ( i = 0; i <= level.nonRushSpawns.size; i++ )
-		{
-			spawnpoints = getentarray( level.nonRushSpawns[i], "classname" );
-			level.tempSpawnCheck[i] = maps\mp\gametypes\_spawnlogic::getSpawnpoint_Random( spawnpoints );
-		}
-		wait 5;
-	}
-	*/
+	level.axisStartup = getEntArray( level.axisStartup, "classname" );
+	level.alliesStartup = getEntArray( level.alliesStartup, "classname" );
 }
 
 ImOutOfFunctionNames( string1, string2 ) // seriously? what even is this
 {
 	DetHarArDetBastaViKanHaJustNu = undefined;
-
-	randNumb = level.startUpSpawn.size;
 
 	for ( i = 0; i <= level.startUpSpawn.size; i++ )
 	{
@@ -994,18 +899,14 @@ finalSurprise()
 	}
 }
 
-playLoopMusic( track, musicLength )
+playLoopMusic( track, duration )
 {
 	level endon( "stop_rush_music" );
-	time = musicLength;
 
 	for ( ;; )
 	{
 		MusicPlay( track );
-		wait( time );
-		//wait( 150 );
-		//music_stop( 1 );
-		wait( 1.2 );
+		wait( duration + 1.2 );
 	}
 }
 
@@ -1031,8 +932,6 @@ showToTeam( team )
 		{
 			if ( player.pers["team"] == game["attackers"] )
 				self showToPlayer( player );
-
-			wait 0.08;
 		}
 
 		wait 1;
@@ -1042,9 +941,6 @@ showToTeam( team )
 intermissionTickets()
 {
 	level endon( "grace_period_ending" );
-
-	wait 0.7;
-
 	attackers = countTeamPlayers( game["attackers"] );
 
 	for ( ;; )
@@ -1061,12 +957,8 @@ intermissionTickets()
 				//foreach ( player in level.players )
 				//	player iprintlnbold( "quickCalc " + quickCalc );
 
-				wait 0.1;
-
 				if ( newAttackers > attackers )
 				{
-					wait 0.08;
-
 					level thread pointsHandle( game["attackers"], level.TotalTickets * quickCalc );
 
 					//foreach ( player in level.players )
@@ -1077,28 +969,20 @@ intermissionTickets()
 				{
 					quickCalc = newAttackers - attackers;
 					newCalc = level.TotalTickets * quickCalc;
-
-					wait 0.08;
-
 					level thread pointsHandle( game["attackers"], newcalc );
 
 					//foreach ( player in level.players )
 					//	player iprintlnbold( "<" + newAttackers + attackers );
-
 				}
 
 				//foreach ( player in level.players )
 				//	player iprintlnbold( "test " + level.TotalTickets * quickCalc + "test " + oldtickets );
 
-				wait 0.2;
 				attackers = countTeamPlayers( game["attackers"] );
-
 			}
-
-			wait 0.1;
 		}
 
-		wait 0.1;
+		wait 0.05;
 	}
 }
 
@@ -1142,13 +1026,8 @@ waitToProcess()
 {
 	level endon( "game_end" );
 
-	for ( ;; )
-	{
-		if ( level.inGracePeriod == 0 )
-			break;
-
+	while ( !level.inGracePeriod )
 		wait 0.05;
-	}
 
 	level.useStartSpawns = false;
 }
@@ -1156,13 +1035,7 @@ waitToProcess()
 setupRushBombs()
 {
 	level.bombZones = [];
-
-	wait 0.08;
-
 	level.bombZones = getEntArray( "rushzone", "targetname" );
-
-	wait 1;
-
 	thread checkForBombs();
 }
 
@@ -1176,7 +1049,6 @@ checkForBombs()
 		if ( level.aliveBombs == 0 && level.totalBombsSpawned != level.bombZones.size )
 		{
 			thread spawnRushBombs();
-
 			wait 5;
 		}
 
@@ -1191,8 +1063,8 @@ getCustomLabel()
 {
 	if ( isDefined( self.index ) && self.index == 1 )
 		return "_a";
-	else
-		return "_b";
+
+	return "_b";
 }
 
 spawnRushBombs()
@@ -1203,10 +1075,10 @@ spawnRushBombs()
 	for ( i = 0; i <= 1; i++ )
 	{
 		index = level.totalBombsSpawned;
-		wait 0.08;
 
 		trigger = level.bombZones[index];
 		visuals = getEntArray( level.bombZones[index].target, "targetname" );
+
 		bombZone = maps\mp\gametypes\_gameobjects::createUseObject( game["defenders"], trigger, visuals, ( 0, 0, 64 ) );
 		bombZone maps\mp\gametypes\_gameobjects::allowUse( "enemy" );
 		bombZone maps\mp\gametypes\_gameobjects::setUseTime( level.plantTime );
@@ -1214,21 +1086,21 @@ spawnRushBombs()
 		bombZone maps\mp\gametypes\_gameobjects::setUseHintText( &"PLATFORM_HOLD_TO_PLANT_EXPLOSIVES" );
 		bombZone maps\mp\gametypes\_gameobjects::setKeyObject( level.ddBomb );
 
-		bombZone.fakeCollision = spawn( "script_model", bombZone.origin );
-		bombZone.fakeCollision cloneBrushModelToScriptModel( level.airDropCrateCollision );
-		bombZone.fakeCollision solid();
+		collision = spawn( "script_model", bombZone.visuals[0].origin );
+		collision cloneBrushModelToScriptModel( level.airDropCrateCollision );
+		collision solid();
 
 		label = bombZone maps\mp\gametypes\_gameobjects::getLabel();
 		bombZone.index = i + 1;
 		label = bombZone getCustomLabel();
-		wait 1;
 		bombZone.label = label;
-		wait 0.06;
+
 		bombZone maps\mp\gametypes\_gameobjects::set2DIcon( "friendly", "waypoint_defend" + label );
 		bombZone maps\mp\gametypes\_gameobjects::set3DIcon( "friendly", "waypoint_defend" + label );
 		bombZone maps\mp\gametypes\_gameobjects::set2DIcon( "enemy", "waypoint_target" + label );
 		bombZone maps\mp\gametypes\_gameobjects::set3DIcon( "enemy", "waypoint_target" + label );
 		bombZone maps\mp\gametypes\_gameobjects::setVisibleTeam( "any" );
+
 		bombZone.onBeginUse = ::onBeginUse;
 		bombZone.onEndUse = ::onEndUse;
 		bombZone.onUse = ::onUseObject;
@@ -1250,12 +1122,12 @@ spawnRushBombs()
 		bombZone.bombDefuseTrig.origin += ( 0, 0, -10000 );
 		bombZone.bombDefuseTrig.label = label;
 
-		level.ActRushBomb[i] = bombzone;
-		wait 0.08;
+		level.activeRushBomb[i] = bombzone;
 		level.totalBombsSpawned++;
+
+		wait 0.05;
 	}
 
-	wait 0.9;
 	thread safeSpawns();
 
 	if ( level.totalBombsSpawned == level.bombZones.size )
@@ -1284,15 +1156,14 @@ getSpawnPointMPmap()
 
 		spawnPoints = maps\mp\gametypes\_spawnlogic::getTeamSpawnPoints( spawnteam );
 		spawnpoint = maps\mp\gametypes\_spawnlogic::getSpawnpoint_NearTeam( spawnpoints );
+
 		/*
-		if(spawnteam == game["attackers"])
-		{
-		spawnPoint = level.bestNonRushSpawn[game["attackers"]];
-		}
-		else {
-		spawnPoint = level.bestNonRushSpawn[game["defenders"]];
-		}
+		if ( spawnteam == game["attackers"] )
+			spawnPoint = level.bestNonRushSpawn[game["attackers"]];
+		else
+			spawnPoint = level.bestNonRushSpawn[game["defenders"]];
 		*/
+
 		//spawnPoint = maps\mp\gametypes\_spawnlogic::getSpawnpoint_NearTeam( spawnPoints );
 	}
 
@@ -1302,30 +1173,29 @@ getSpawnPointMPmap()
 
 getteam( team )
 {
-	players = level.players;
 	level.teamDudes[team] = [];
 
-	for ( i = 0; i <= level.players.size; i++ )
+	foreach ( player in level.players )
 	{
-		if ( players[i].pers["team"] == team )
-			level.teamDudes[team][level.teamDudes[team].size] = players[i];
+		if ( player.pers["team"] == team )
+			level.teamDudes[team][level.teamDudes[team].size] = player;
 	}
 
 	return level.teamDudes[team];
 }
 
-
 getBestSpawnRush()
 {
 	bestSpawnSoFar = undefined;
-	tdmspawnpoints = getentarray( "mp_tdm_spawn", "classname" );
+	tdmspawnpoints = getEntArray( "mp_tdm_spawn", "classname" );
 	tdmSpawn = maps\mp\gametypes\_spawnlogic::getSpawnpoint_Random( tdmspawnpoints );
+
 	/*
-	for(i = 0; i <= level.nonRushSpawns.size; i++)
+	for ( i = 0; i <= level.nonRushSpawns.size; i++ )
 	{
-		spawnpoints = getentarray(level.nonRushSpawns[i], "classname");
+		spawnpoints = getEntArray( level.nonRushSpawns[i], "classname" );
 		//self.tempSpawnCheck[i] = maps\mp\gametypes\_spawnlogic::getSpawnpoint_NearTeam( spawnpoints );
-		self.tempSpawnCheck[i] = maps\mp\gametypes\_spawnlogic::getSpawnpoint_Random(spawnpoints);
+		self.tempSpawnCheck[i] = maps\mp\gametypes\_spawnlogic::getSpawnpoint_Random( spawnpoints );
 	}
 	*/
 
@@ -1365,91 +1235,77 @@ getBestSpawnRush()
 
 		}
 
+		/*
 		foreach ( player in ragequit )
 		{
-			//self iprintlnbold(ragequit[0]);
-
-			/*
-			if(level.players[p] != self)
+			if ( level.aPlanted && !level.bPlanted )
 			{
-			player = level.players[p];
+				if ( self.pers["team"] == game["defenders"] && distance( level.activeRushBomb[0].origin, self.tempSpawnCheck[i].origin ) < tmpDist )
+				{
+					tmpDist = distance( level.activeRushBomb[0].origin, self.tempSpawnCheck[i].origin );
+					bestSpawnSoFar = self.tempSpawnCheck[i];
+				}
+
+				if ( self.pers["team"] == game["attackers"] && distance( level.activeRushBomb[0].origin, self.tempSpawnCheck[i].origin ) > tmpDist )
+				{
+					tmpDist = distance( level.activeRushBomb[0].origin, self.tempSpawnCheck[i].origin );
+					bestSpawnSoFar = self.tempSpawnCheck[i];
+				}
+
 			}
-			*/
-			/*
-				if ( level.aPlanted && !level.bPlanted )
+
+			if ( !level.aPlanted && level.bPlanted )
+			{
+				if ( self.pers["team"] == game["defenders"] && distance( level.activeRushBomb[1].origin, self.tempSpawnCheck[i].origin ) < tmpDist )
 				{
-					if(self.pers["team"] == game["defenders"] && distance(level.ActRushBomb[0].origin, self.tempSpawnCheck[i].origin) < tmpDist)
+					tmpDist = distance( level.activeRushBomb[1].origin, self.tempSpawnCheck[i].origin );
+					bestSpawnSoFar = self.tempSpawnCheck[i];
+				}
+
+				if ( self.pers["team"] == game["attackers"] && distance( level.activeRushBomb[1].origin, self.tempSpawnCheck[i].origin ) > tmpDist )
+				{
+					tmpDist = distance( level.activeRushBomb[1].origin, self.tempSpawnCheck[i].origin );
+					bestSpawnSoFar = self.tempSpawnCheck[i];
+				}
+
+			}
+
+			if ( !level.aPlanted && !level.bPlanted )
+			{
+				if ( level.players.size > 1 )
+				{
+					if ( distance( self.tempSpawnCheck[i].origin, player.origin ) > tmpDist )
 					{
-					tmpDist = distance(level.ActRushBomb[0].origin, self.tempSpawnCheck[i].origin);
-					bestSpawnSoFar = self.tempSpawnCheck[i];
+						tmpDist = distance( self.tempSpawnCheck[i].origin, player.origin );
+						bestSpawnSoFar = self.tempSpawnCheck[i];
+						self setorigin( bestSpawnSoFar.origin );
+						//self iprintlnbold("test123");
 					}
+				}
 
-				if(self.pers["team"] == game["attackers"] && distance(level.ActRushBomb[0].origin, self.tempSpawnCheck[i].origin) > tmpDist)
+				else
 				{
-					tmpDist = distance(level.ActRushBomb[0].origin, self.tempSpawnCheck[i].origin);
+					//self iprintlnbold("derpa");
 					bestSpawnSoFar = self.tempSpawnCheck[i];
-				}
 
-				}
+					if ( i == randBreakNumber )
+						return bestSpawnSoFar;
 
-				if ( !level.aPlanted && level.bPlanted )
-				{
-					if(self.pers["team"] == game["defenders"] && distance(level.ActRushBomb[1].origin, self.tempSpawnCheck[i].origin) < tmpDist)
-					{
-					tmpDist = distance(level.ActRushBomb[1].origin, self.tempSpawnCheck[i].origin);
-					bestSpawnSoFar = self.tempSpawnCheck[i];
-					}
-
-				if(self.pers["team"] == game["attackers"] && distance(level.ActRushBomb[1].origin, self.tempSpawnCheck[i].origin) > tmpDist)
-				{
-					tmpDist = distance(level.ActRushBomb[1].origin, self.tempSpawnCheck[i].origin);
-					bestSpawnSoFar = self.tempSpawnCheck[i];
-				}
-
-				}
-
-				if ( !level.aPlanted && !level.bPlanted )
-				{
-
-				//if(player.team != self.team && distance(self.tempSpawnCheck[i].origin, player.origin) > tmpDist)
-				if(level.players.size > 1)
-				{
-				if(distance(self.tempSpawnCheck[i].origin, player.origin) > tmpDist)
-				{
-				tmpDist = distance(self.tempSpawnCheck[i].origin, player.origin);
-				bestSpawnSoFar = self.tempSpawnCheck[i];
-				self setorigin(bestSpawnSoFar.origin);
-				//self iprintlnbold("test123");
-				}
-				}
-
-				else {
-				//self iprintlnbold("derpa");
-				bestSpawnSoFar = self.tempSpawnCheck[i];
-				if(i == randBreakNumber)
-				{
-				return bestSpawnSoFar;
-				}
-				//player iprintlnbold(randBreakNumber + "  " + i + "  " +  self.tempSpawnCheck[i].origin);
-				break;
+					//player iprintlnbold(randBreakNumber + "  " + i + "  " +  self.tempSpawnCheck[i].origin);
+					break;
 
 				}
 
 				//player iprintlnbold("test");
-				}
-				*/
+			}
 		}
-
+		*/
 	}
 
 	if ( isDefined( bestSpawnSoFar ) )
 		return bestSpawnSoFar;
-
-	/*
-	else {
-	return tdmSpawn;
-	}
-	*/
+	//else
+	//	return tdmSpawn;
 }
 
 getSpawnPoint()
@@ -1522,9 +1378,9 @@ getSpawnPoint()
 						number = randomint( level.totalBombsSpawned + 1 );
 
 					if ( number == 0 )
-						number = number + 1;
+						number--;
 
-					wait 0.06;
+					wait 0.05;
 
 					number = 1;
 
@@ -1582,7 +1438,7 @@ getSpawnPoint()
 						number = randomint( level.totalBombsSpawned + 1 );
 
 					if ( number == 0 )
-						number = number + 1;
+						number++;
 
 					spawnPoints = maps\mp\gametypes\_spawnlogic::getSpawnpointArray( "mp_rush_defender_spawn_" + number );
 					self.spawnKilled++;
@@ -1616,7 +1472,6 @@ getSpawnPoint()
 	return spawnPoint;
 }
 
-
 onNormalDeath( victim, attacker, lifeId )
 {
 	score = maps\mp\gametypes\_rank::getScoreInfoValue( "kill" );
@@ -1627,11 +1482,6 @@ onNormalDeath( victim, attacker, lifeId )
 	if ( game["state"] == "postgame" && game["teamScores"][attacker.team] > game["teamScores"][level.otherTeam[attacker.team]] )
 		attacker.finalKill = true;
 }
-
-onTimeLimit()
-{
-}
-
 
 dropBombModel( player, site )
 {
@@ -1672,7 +1522,7 @@ bombPlanted( destroyedObj, player )
 {
 	destroyedObj endon( "defused" );
 
-	level.aliveBombsPlanted += 1;
+	level.aliveBombsPlanted++;
 	self setBombTimerDvar();
 	maps\mp\gametypes\_gamelogic::pauseTimer();
 	level.timePauseStart = getTime();
@@ -1697,12 +1547,12 @@ bombPlanted( destroyedObj, player )
 	destroyedObj maps\mp\gametypes\_gameobjects::setVisibleTeam( "none" );
 	destroyedObj setUpForDefusing();
 
-	destroyedObj BombTimerWait( destroyedObj ); //waits for bomb to explode!
+	destroyedObj bombTimerWait( destroyedObj ); //waits for bomb to explode!
 
 	destroyedObj thread bombHandler( player, "explode" );
 }
 
-BombTimerWait( siteLoc )
+bombTimerWait( siteLoc )
 {
 	level endon( "game_ended" );
 	level endon( "bomb_defused" + siteLoc.label );
@@ -1722,7 +1572,6 @@ BombTimerWait( siteLoc )
 		maps\mp\gametypes\_hostmigration::waitTillHostMigrationDone();
 	}
 }
-
 
 onUseObject( player )
 {
@@ -1751,8 +1600,8 @@ onUseObject( player )
 		self.useWeapon = "briefcase_bomb_defuse_mp";
 		self setUpForDefusing();
 	}
-	else // defused the bomb
-		self thread bombHandler( player, "defused" );
+	else
+		self thread bombHandler( player, "defused" ); // defused the bomb
 }
 
 restartTimer()
@@ -1768,7 +1617,7 @@ restartTimer()
 bombHandler( player, destType )
 {
 	self.visuals[0] notify( "stopTicking" );
-	level.aliveBombsPlanted -= 1;
+	level.aliveBombsPlanted--;
 
 	self.bombPlanted = 0;
 
@@ -1783,13 +1632,11 @@ bombHandler( player, destType )
 
 	if ( destType == "explode" )
 	{
-		level.bombExploded += 1;
+		level.bombExploded++;
 		//level thread pointsHandle(game["attackers"], level.bombPoints);
 
 		level.teamtickets[game["attackers"]] = ( level.bombPoints * countTeamPlayers( game["attackers"] ) );
 		//level thread pointsHandle(game["attackers"], level.bombPoints, 1);
-
-		wait 0.09;
 
 		if ( self.label == "_a" )
 			level.aPlanted = false;
@@ -1826,12 +1673,12 @@ bombHandler( player, destType )
 		else
 			level.bDestroyed = true;
 
-		wait 0.6;
+		wait 0.5;
 
 		level.aliveBombs--;
 		level.totalBombsDestroyed++;
 	}
-	else //defused
+	else // defused
 	{
 		player notify( "bomb_defused" );
 		self notify( "defused" );
@@ -1861,7 +1708,6 @@ bombHandler( player, destType )
 		player incPlayerStat( "bombsdefused", 1 );
 		player thread maps\mp\_matchdata::logGameEvent( "defuse", player.origIn );
 	}
-
 }
 
 bombDefused( siteDefused )
@@ -1987,10 +1833,6 @@ onEndUse( team, player, result )
 onCantUse( player )
 {
 	player iPrintLnBold( &"MP_BOMBSITE_IN_USE" );
-}
-
-onReset()
-{
 }
 
 initGametypeAwards()

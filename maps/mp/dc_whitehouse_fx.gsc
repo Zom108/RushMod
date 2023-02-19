@@ -2,23 +2,23 @@
 
 main()
 {
-	setdvarifuninitialized("scr_rain", "0");
-	
-		// Hunted Spotlight
-		level._effect[ "_attack_heli_spotlight" ]	 			= loadfx( "misc/hunted_spotlight_model" );
-	
-	
-	//CRASH SCENE FX 
+	setdvarifuninitialized( "scr_rain", "0" );
+
+	// Hunted Spotlight
+	level._effect[ "_attack_heli_spotlight" ]	 			= loadfx( "misc/hunted_spotlight_model" );
+
+
+	//CRASH SCENE FX
 	level._effect[ "firelp_large_pm" ]							= loadfx( "fire/firelp_large_pm" );
 	level._effect[ "firelp_med_pm" ]							= loadfx( "fire/firelp_med_pm" );
 	level._effect[ "firelp_small_pm" ]							= loadfx( "fire/firelp_small_pm" );
 	level._effect[ "firelp_small_pm_a" ]						= loadfx( "fire/firelp_small_pm_a" );
-	
+
 	level._effect[ "firelp_large_pm_nolight" ]					= loadfx( "fire/firelp_large_pm_nolight" );
 	level._effect[ "firelp_med_pm_nolight" ]					= loadfx( "fire/firelp_med_pm_nolight" );
 	level._effect[ "firelp_small_pm_nolight" ]					= loadfx( "fire/firelp_small_pm_nolight" );
 	level._effect[ "firelp_small_pm_a_nolight" ]				= loadfx( "fire/firelp_small_pm_a_nolight" );
-		
+
 	//WHITEHOUSE
 	level._effect[ "transformer_spark_runner" ]					= loadfx( "explosions/transformer_spark_runner" );
 
@@ -57,17 +57,17 @@ main()
 	level._effect[ "lightning" ]				 				= loadfx( "weather/lightning" );
 	level._effect[ "lightning_bolt" ]			 				= loadfx( "weather/lightning_bolt" );
 	level._effect[ "lightning_bolt_lrg" ]						= loadfx( "weather/lightning_bolt_lrg" );
-	
+
 	//footstep fx
-/*	animscripts\utility::setFootstepEffect( "mud", 			loadfx( "impacts/footstep_water_dark" ) );
-	animscripts\utility::setFootstepEffect( "grass", 		loadfx( "impacts/footstep_water_dark" ) );
-	animscripts\utility::setFootstepEffect( "dirt", 		loadfx( "impacts/footstep_water_dark" ) );
-	animscripts\utility::setFootstepEffect( "concrete", 	loadfx( "impacts/footstep_water_dark" ) );
-	animscripts\utility::setFootstepEffect( "rock", 		loadfx( "impacts/footstep_water_dark" ) );
-	animscripts\utility::setFootstepEffect( "asphalt", 		loadfx( "impacts/footstep_water_dark" ) );
-	animscripts\utility::setFootstepEffect( "wood", 		loadfx( "impacts/footstep_water_dark" ) );
-	animscripts\utility::setFootstepEffect( "metal", 		loadfx( "impacts/footstep_water_dark" ) );
-*/
+	/*	animscripts\utility::setFootstepEffect( "mud", 			loadfx( "impacts/footstep_water_dark" ) );
+		animscripts\utility::setFootstepEffect( "grass", 		loadfx( "impacts/footstep_water_dark" ) );
+		animscripts\utility::setFootstepEffect( "dirt", 		loadfx( "impacts/footstep_water_dark" ) );
+		animscripts\utility::setFootstepEffect( "concrete", 	loadfx( "impacts/footstep_water_dark" ) );
+		animscripts\utility::setFootstepEffect( "rock", 		loadfx( "impacts/footstep_water_dark" ) );
+		animscripts\utility::setFootstepEffect( "asphalt", 		loadfx( "impacts/footstep_water_dark" ) );
+		animscripts\utility::setFootstepEffect( "wood", 		loadfx( "impacts/footstep_water_dark" ) );
+		animscripts\utility::setFootstepEffect( "metal", 		loadfx( "impacts/footstep_water_dark" ) );
+	*/
 	// Rain
 	level._effect[ "rain_10" ]	 							= loadfx( "weather/rain_heavy_mist" );
 	level._effect[ "rain_9" ]		 						= loadfx( "weather/rain_9_lite" );
@@ -80,19 +80,19 @@ main()
 	level._effect[ "rain_2" ]		 						= loadfx( "weather/rain_2_lite" );
 	level._effect[ "rain_1" ]		 						= loadfx( "weather/rain_1_lite" );
 	level._effect[ "rain_0" ]		 						= loadfx( "misc/blank" );
-	
+
 	level._effect[ "rain_drops" ] = loadfx( "weather/rain_heavy_mist" );
-	
-	if(getdvarint("scr_rain") == 1)
+
+	if ( getdvarint( "scr_rain" ) )
 	{
-	thread playerWeather();	// make the actual rain effect generate around the player
-	SetExpFog(5882, 4070, 0.217, 0.136, 0.101, 0.58, 0);
-	//Tunnel	
-	level._effect[ "waterfall_drainage_short" ] 				= loadfx( "water/waterfall_drainage_short_dcemp" );
-	level._effect[ "waterfall_drainage_splash" ] 				= loadfx( "water/waterfall_drainage_splash_dcemp" );
-	level._effect[ "falling_water_trickle" ]	 				= loadfx( "water/falling_water_trickle" );
-	level._effect[ "rain_noise_splashes" ]						= loadfx( "weather/rain_noise_splashes" );
-	level._effect[ "cgo_ship_puddle_large" ]		 			= loadfx( "distortion/cgo_ship_puddle_large" ); 
+		thread playerWeather();	// make the actual rain effect generate around the player
+		SetExpFog( 5882, 4070, 0.217, 0.136, 0.101, 0.58, 0 );
+		//Tunnel
+		level._effect[ "waterfall_drainage_short" ] 				= loadfx( "water/waterfall_drainage_short_dcemp" );
+		level._effect[ "waterfall_drainage_splash" ] 				= loadfx( "water/waterfall_drainage_splash_dcemp" );
+		level._effect[ "falling_water_trickle" ]	 				= loadfx( "water/falling_water_trickle" );
+		level._effect[ "rain_noise_splashes" ]						= loadfx( "weather/rain_noise_splashes" );
+		level._effect[ "cgo_ship_puddle_large" ]		 			= loadfx( "distortion/cgo_ship_puddle_large" );
 	}
 }
 
@@ -101,10 +101,9 @@ playerWeather()
 {
 	for ( ;; )
 	{
-	foreach(player in level.players)
-	{	
-	playfx( level._effect[ "rain_drops" ], player.origin + ( 0, 0, 650 ), player.origin + ( 0, 0, 680 ) );
-	}
-	wait( 0.3 );	
+		foreach ( player in level.players )
+			playfx( level._effect[ "rain_drops" ], player.origin + ( 0, 0, 650 ), player.origin + ( 0, 0, 680 ) );
+
+		wait( 0.3 );
 	}
 }

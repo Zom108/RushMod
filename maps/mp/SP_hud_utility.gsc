@@ -4,7 +4,6 @@
 
 add_hint_string( name, string, optionalFunc )
 {
-
 	if ( !isdefined( level.trigger_hint_string ) )
 	{
 		level.trigger_hint_string = [];
@@ -17,15 +16,13 @@ add_hint_string( name, string, optionalFunc )
 
 	level.trigger_hint_string[ name ] = string;
 	PreCacheString( string );
-	if ( IsDefined( optionalFunc ) )
-	{
-		level.trigger_hint_func[ name ] = optionalFunc;
-	}
 
+	if ( IsDefined( optionalFunc ) )
+		level.trigger_hint_func[ name ] = optionalFunc;
 }
 
- /* 
- ============= 
+/*
+=============
 ///ScriptDocBegin
 "Name: display_hint( <hint> )"
 "Summary: Displays a hint created with add_hint_string."
@@ -34,8 +31,8 @@ add_hint_string( name, string, optionalFunc )
 "Example: display_hint( "huzzah" )"
 "SPMP: singleplayer"
 ///ScriptDocEnd
- ============= 
- */ 
+=============
+*/
 display_hint( hint, parm1, parm2, parm3 )
 {
 	player = self;
@@ -50,9 +47,7 @@ display_hint( hint, parm1, parm2, parm3 )
 		player thread HintPrint( level.trigger_hint_string[ hint ], level.trigger_hint_func[ hint ], parm1, parm2, parm3, 30 );
 	}
 	else
-	{
 		player thread HintPrint( level.trigger_hint_string[ hint ], undefined, undefined, undefined, undefined, 30 );
-	}
 }
 
 
@@ -80,16 +75,16 @@ HintPrint( string, breakfunc, parm1, parm2, parm3, timeout )
 		if ( self.current_global_hint == string )
 			return;
 	}
-		
+
 	//ent_flag_set( "global_hint_in_use" );
 
 	self.current_global_hint = string;
-	
+
 	Hint = createFontString( "default", 2 );
-	
+
 	//thread destroy_hint_on_friendlyfire( hint );
 	//level endon( "friendlyfire_mission_fail" );
-	
+
 	//Hint.color = ( 1, 1, .5 ); //remove color so that color highlighting on PC can show up.
 	Hint.alpha = 0.9;
 	Hint.x = 0;
@@ -110,27 +105,24 @@ HintPrint( string, breakfunc, parm1, parm2, parm3, timeout )
 	HintPrintWait( MYFADEINTIME, breakfunc );
 
 	parms = 0;
+
 	if ( IsDefined( parm3 ) )
 		parms = 3;
-	else
-	if ( IsDefined( parm2 ) )
+	else if ( IsDefined( parm2 ) )
 		parms = 2;
-	else
-	if ( IsDefined( parm1 ) )
+	else if ( IsDefined( parm1 ) )
 		parms = 1;
 
 	timeout_ent = SpawnStruct();
 	timeout_ent.timed_out = false;
+
 	if ( IsDefined( timeout ) )
-	{
 		timeout_ent thread hint_timeout( timeout );
-	}
 
 	if ( IsDefined( breakfunc ) )
 	{
 		for ( ;; )
 		{
-
 			Hint FadeOverTime( MYFLASHTIME );
 			Hint.alpha = MYALPHALOW;
 			HintPrintWait( MYFLASHTIME, breakfunc );
@@ -140,14 +132,12 @@ HintPrint( string, breakfunc, parm1, parm2, parm3, timeout )
 				if ( [[ breakfunc ]]( parm1, parm2, parm3 ) )
 					break;
 			}
-			else
-			if ( parms == 2 )
+			else if ( parms == 2 )
 			{
 				if ( [[ breakfunc ]]( parm1, parm2 ) )
 					break;
 			}
-			else
-			if ( parms == 1 )
+			else if ( parms == 1 )
 			{
 				if ( [[ breakfunc ]]( parm1 ) )
 					break;
@@ -170,14 +160,12 @@ HintPrint( string, breakfunc, parm1, parm2, parm3, timeout )
 				if ( [[ breakfunc ]]( parm1, parm2, parm3 ) )
 					break;
 			}
-			else
-			if ( parms == 2 )
+			else if ( parms == 2 )
 			{
 				if ( [[ breakfunc ]]( parm1, parm2 ) )
 					break;
 			}
-			else
-			if ( parms == 1 )
+			else if ( parms == 1 )
 			{
 				if ( [[ breakfunc ]]( parm1 ) )
 					break;
@@ -202,13 +190,12 @@ HintPrint( string, breakfunc, parm1, parm2, parm3, timeout )
 			HintPrintWait( MYFLASHTIME, breakfunc );
 		}
 	}
-	
+
 	hint notify( "destroying" );
 	self.current_global_hint = undefined;
 	Hint Destroy();
 	//ent_flag_clear( "global_hint_in_use" );
 }
-
 
 hintPrintWait( length, breakfunc )
 {
@@ -219,10 +206,12 @@ hintPrintWait( length, breakfunc )
 	}
 
 	timer = length * 20;
+
 	for ( i = 0; i < timer; i++ )
 	{
 		if ( [[ breakfunc ]]() )
 			break;
+
 		wait( 0.05 );
 	}
 }

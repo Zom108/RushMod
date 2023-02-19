@@ -21,7 +21,7 @@ main()
 	level._effect[ "car_crush_glass_large" ]			= loadfx( "props/car_glass_large" );
 	level._effect[ "car_crush_dust" ]					= loadfx( "dust/car_crush_dust" );
 
-	
+
 	//ambient fx
 	level._effect[ "insects_carcass_runner" ]			= loadfx( "misc/insects_carcass_runner" );
 
@@ -39,17 +39,6 @@ main()
 	level._effect[ "battlefield_smokebank_S" ]			= loadfx( "smoke/battlefield_smokebank_S" );
 	level._effect[ "thin_black_smoke_M" ]			 	= LoadFX( "smoke/thin_black_smoke_M" );
 	level._effect[ "thin_black_smoke_L" ]			 	= LoadFX( "smoke/thin_black_smoke_L_nofog" );
-	
-	treadfx_override();
+
 	maps\createfx\favela_fx::main();
-}
-
-footstep_effects()
-{
-
-}
-
-
-treadfx_override()
-{
 }
