@@ -25,3 +25,8 @@ The only supported maps at the moment are
 - ``so_ghillies``
 
 You can load a map with this gamemode by typing ``g_gametype rush`` into your console followed by ``devmap *insert map here*`` (For example, ``devmap co_hunted``)
+
+# Known Bugs
+- Bombsites do not have any collision.
+- Bombsites on certain maps can show models that shouldn't be there, supposedly trying to recreate collision.
+- SP are very unstable, and can cause crashing if you move to multiple maps in one session.
