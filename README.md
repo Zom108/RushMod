@@ -29,5 +29,5 @@ You can load a map with this gamemode by typing ``g_gametype rush`` into your co
 # Known Bugs
 - Bombsites do not have any collision.
 - Bombsites on certain maps can show models that shouldn't be there, supposedly trying to recreate collision.
-- SP are very unstable, and can cause crashing if you move to multiple maps in one session.
+- SP maps are very unstable, and can cause crashing if you move to multiple maps in one session.
 - You are unable to choose a class.
