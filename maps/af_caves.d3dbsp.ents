@@ -4941,7 +4941,7 @@
 "classname" "trigger_use_touch"
 "script_gameobjectname" "rushzone"
 "origin" "4838.94 10881.4 -3844.13"
-"radius" "200"
+"radius" "500"
 "height" "500"
 }
 {
@@ -4986,7 +4986,7 @@
 "classname" "trigger_use_touch"
 "script_gameobjectname" "rushzone"
 "origin" "4732.67 11806.6 -3841.43"
-"radius" "200"
+"radius" "500"
 "height" "500"
 }
 {
